@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Load in libraries here -->
+  <link rel="stylesheet" type="text/css" href="normalize.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+</head>
+
+<body>
+
+<div id="root" class="container"> <!-- Vue can only access things contained within this div -->
+
+  <div id="title">
+    <h1>Warming App</h1>
+    <h3>An oversimplified cartoon model to predict the temperature of a planet</h3>
+  </div>
+
+  <div style="width:100%">
+    <img  style="width:100%" src="planetglitch.gif">
+    <p style ="margin-top: -13px;"><small>Image: <a href="https://giphy.com/gifs/nasa-space-planet-oBkyBcSmOklyM">NASA</a></small></p>
+  </div>
+
+  <p>Congratulations! You've just created a planet.</p>
+
+  <p>Brrr! It's cold, all the way out in space. You need to warm your planet up.</p>
+
+  <p>So, let's gently place your planet in orbit around the Sun. Let it sit there for a while and soak up those sweet solar photons.</p>
+
+  <div style="width:100%">
+    <img  style="width:100%" src="sun.gif">
+    <p style ="margin-top: -13px;"><small>Image: <a href="https://giphy.com/gifs/nasa-space-star-gm3gzG1dNnSBW">NASA</a></small></p>
+  </div>
+
+  <p>Ahhh... that's much better. After warming up for a while, the planet eventually settles into an energy balance, where the incoming solar energy balances the heat that the planet radiates.</p>
+
+  <p>Once this balance is reached, your planet has settled in to its equilibrium temperature. Let's work out what this temperature will be. To do this, we're going to need to make some massively simplifying assumptions.</p>
+
+  <p>First, we're going to assume that your planet doesn't have a greenhouse effect. Maybe it doesn't have an atmosphere at all. So the temperature of your planet depends primarily on how far away it is from the Sun, which affects how much sunlight it gets.</p>
+
+  <p>Also, we'll assume there are no extra feedbacks at that can change your planets temperature. So we won't worry about things like ice or clouds forming, which would otherwise affect how much energy your planet absorbes. The only mechanism we're considering here is the <a href="https://rateofchange.substack.com/p/dark-heat-and-earths-energy-imbalance">balance between energy absorbed and heat radiated.</a></p>
+
+  <p>So let's get started.</p>
+
+  <div style="width:100%">
+    <img  style="width:100%" src="planets.gif">
+    <p style ="margin-top: -13px;"><small>Image: <a href="https://giphy.com/gifs/nasa-space-mars-8YvxhbQoVYPSt7pB94">NASA</a></small></p>
+  </div>
+
+  <p>You get to chose the 'Solar Flux' on your planet. This number tells us the average amount of energy absorbed by one square meter of the planet's surface in one second. On this page, we're assuming these numbers are calculated after taking into account the planet's albedo or reflectivity.</p>
+
+  <p>To help you get started, here are the values for the four planets closest to the Sun.</p>
+
+  <div style="width:100%">
+    <img  style="width:100%" src="solarflux.png">
+  </div>
+
+  <h2>Select Solar Flux</h2>
+
+  <p>Drag the slider or use the input box to set the solar flux on your planet.</p>
+
+  <p><input type="range" min="0" max="400" step="1" v-model.number="data.ein" ></input> <input v-model="data.ein" style="width:40px"></p>
+
+  <p>The Incoming Solar Flux of your planet is {{data.ein}} W/m² </p>
+
+  <div class="centerbox">
+    <div id="p5">
+      <!-- Vue components for p5 sketches, also bound to data -->
+      <p5 src="./sketch.js" :data="data"></p5>
+    </div>
+  </div>
+
+  <p>When the yellow and red pile match, the planet is in equilibrium. The temperature that this simulation settles into is known as the <a href="https://en.wikipedia.org/wiki/Planetary_equilibrium_temperature">Planetary Equilibrium Temperature</a>, or the <a href="https://nssdc.gsfc.nasa.gov/planetary/planetfact.html">blackbody temperature</a> of the planet.</p>
+
+  <p>Mathematically, the equilibrium temperature that your planet will end up at is the solution to the equation {{data.ein}} = σ T⁴, where σ is a number known as the <a href="https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant">Stefan-Boltzmann Constant</a>, and T is the temperature measured in Kelvin. The solution to this equation is T = {{temp}} Kelvin, or {{ktoc(temp)}}° C.</p>
+
+  <p>You can <a href="https://nssdc.gsfc.nasa.gov/planetary/planetfact.html">look up</a> the actual average temperatures for these planets.</p>
+
+  <p>How do the predictions of this simple model compare? For planets with little to no atmosphere, and a weak greenhouse effect, we get remarkably close to the actual planetary temperatures. But for planets with a significant greenhouse effect, we miss the mark. The stronger the greenhouse effect, the more incorrect this calculation will be. The difference between the <i>actual</i> planetary temperature and the <i>predicted</i> equilibrium temperature tells you about the strength of the greenhouse effect.</p>
+
+</div>
+
+<script src="vue-definitions.js"></script>
+
+</body>
+</html>
